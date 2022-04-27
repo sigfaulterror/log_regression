@@ -54,14 +54,17 @@ fn matrix_multi(matrix: &Vec<Vec<f32>>, vector: &Vec<f32>) -> Vec<f32>{
     return result;
 }
 fn invers_number_using_newton_raphson(a:f32)->f32{
-    //let mut xk:f32 = -0.00001;
-    //for _ in 0..20{
-    //   xk = xk * (2.0 - a*xk);
-    //   println!("xk: {}", xk);
-    //}
-    //println!("inv of : {} is {}", a, xk);
-    //return xk;
-    return 1.0/a;
+
+    //the initial value should be silghtly greater than -1/((d+1)*(n + 1) * max * max) 
+    // this is due how temp is calculated
+ 
+    let mut xk:f32 = -0.001;
+    for _ in 0..10{
+       xk = xk * (2.0 - a*xk);
+       println!("xk: {}", xk);
+    }
+    println!("inv of : {} is {}", a, xk);
+    return xk;
 }
 
 fn vect_mult(x: &Vec<f32>, y: &Vec<f32>)->f32{
@@ -89,6 +92,10 @@ fn main() -> Result<(), CryptoAPIError> {
 
     let n = 5;
     let d = 3;
+    //A BAD APPROIMATION IN THE HESSIAN INVERSE MATRIX
+    //WILL CAUSE US TO HAVE A SLOW PROGRESS TO THE OPTIMUM SOLUTION FOR BETA
+    //THIS IS WHY WE CAN TOLERATE TO DO MANY ITERATIONS IN CALCULATING THE INVERSE MATRIX
+    //WE WILL GAIN IN CALCULATION OF THE BETA 
     let nbr_iters = 100;
     let x: Vec<Vec<f32>>= vec![
                                 vec![0.0,0.0,4.0,4.0],
@@ -107,6 +114,7 @@ fn main() -> Result<(), CryptoAPIError> {
             sum[i] = sum[i] + x[i][j];
         }
     }
+
     for j in 0..d+1{
         let mut temp=0.0;
         for i in 1..n{
