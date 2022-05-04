@@ -1,4 +1,3 @@
-use concrete::*;
 fn matrix_multi(matrix: &Vec<Vec<f64>>, vector: &Vec<f64>) -> Vec<f64> {
     let mut result: Vec<f64> = Vec::new();
     for i in 0..matrix.len() {
@@ -50,7 +49,7 @@ fn vect_mult_scalar(x: &Vec<f64>, y: f64) -> Vec<f64> {
     }
     return r;
 }
-fn main() -> Result<(), CryptoAPIError> {
+fn main() -> Result<(),()> {
     let n = 5;
     let d = 3;
     //A BAD APPROIMATION IN THE HESSIAN INVERSE MATRIX
